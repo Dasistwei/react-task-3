@@ -3,10 +3,9 @@ import axios from "axios";
 function ProductPage({ token }) {
   const [tempProduct, setTempProduct] = useState(null);
   const [products, setProducts] = useState([]);
-  // console.log(token);
+
   function getProducts() {
-    const API_URL =
-      "https://ec-course-api.hexschool.io/v2/api/wei777/admin/products";
+    const API_URL = `${API_BASE}/api/${API_PATH}/admin/products`;
     const TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6IlFEZ1JhQSJ9...（省略）...";
 
     axios
@@ -98,9 +97,8 @@ function ProductPage({ token }) {
                         <img
                           key={index}
                           src={url}
-                          className="img-thumbnail me-2"
+                          className="img-thumbnail me-2 w-25"
                           alt="其他圖片"
-                          className="w-25"
                         />
                       );
                     })}
@@ -116,6 +114,8 @@ function ProductPage({ token }) {
     </div>
   );
 }
+const API_PATH = import.meta.env.VITE_API_PATH;
+const API_BASE = import.meta.env.VITE_API_BASE;
 function App() {
   const [user, setUser] = useState({
     username: "",
@@ -126,7 +126,7 @@ function App() {
 
   function login() {
     axios
-      .post("https://ec-course-api.hexschool.io/v2/admin/signin", {
+      .post(`${API_BASE}/admin/signin`, {
         username: user.username,
         password: user.password,
       })
