@@ -155,6 +155,16 @@ function App() {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+  const handleImagesUrlChange = (e, index) => {
+    const { value } = e.target;
+    const newImagesUrl = [...tempProduct.imagesUrl];
+    newImagesUrl[index] = value;
+
+    setTempProduct({
+      ...tempProduct,
+      imagesUrl: newImagesUrl,
+    });
+  };
 
   return (
     <>
@@ -314,8 +324,11 @@ function App() {
                           副圖 {index + 1}
                         </label>
                         <input
-                          // value={tempProduct.imagesUrl[index]}
-                          // onChange={handleProductModalInputChange}
+                          value={
+                            tempProduct.imagesUrl[index] &&
+                            tempProduct.imagesUrl[index]
+                          }
+                          onChange={(e) => handleImagesUrlChange(e, index)}
                           id={`imagesUrl-${index + 1}`}
                           type="text"
                           placeholder={`圖片網址 ${index + 1}`}
@@ -330,6 +343,46 @@ function App() {
                         )}
                       </div>
                     ))}
+                    <div className="btn-group w-100">
+                      {tempProduct.imagesUrl.length < 5 &&
+                        [...tempProduct.imagesUrl][
+                          tempProduct.imagesUrl.length - 1
+                        ] !== "" && (
+                          <button
+                            className="btn btn-outline-primary btn-sm w-100"
+                            onClick={() => {
+                              if (
+                                tempProduct.imagesUrl.length < 5 &&
+                                [...tempProduct.imagesUrl][
+                                  tempProduct.imagesUrl.length - 1
+                                ] !== ""
+                              ) {
+                                setTempProduct({
+                                  ...tempProduct,
+                                  imagesUrl: [...tempProduct.imagesUrl, ""],
+                                });
+                              }
+                            }}
+                          >
+                            新增圖片
+                          </button>
+                        )}
+                      {tempProduct.imagesUrl.length > 1 && (
+                        <button
+                          className="btn btn-outline-danger btn-sm w-100"
+                          onClick={() => {
+                            const newImagesUrl = [...tempProduct.imagesUrl];
+                            newImagesUrl.pop();
+                            setTempProduct({
+                              ...tempProduct,
+                              imagesUrl: newImagesUrl,
+                            });
+                          }}
+                        >
+                          取消圖片
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
 
